@@ -99,9 +99,9 @@ void Initialize()
 	int workerThreadCount = info.dwNumberOfProcessors;
 
 	gIocp = CreateIoCompletionPort(INVALID_HANDLE_VALUE,
-										 NULL, 
-										 NULL, 
-										 workerThreadCount);
+								   NULL, 
+								   NULL, 
+								   workerThreadCount);
 
 	for (int i = 0; i < workerThreadCount; i++)
 		gWorkerThreads.push_back(std::thread(WorkerThread));
@@ -256,8 +256,8 @@ void WorkerThread()
 			 * 클라로 받은 데이터 그대로 전송하고
 			 */
 			Send(conn,
-				message,
-				bytesTransferred);
+				 message,
+				 bytesTransferred);
 
 			/*
 			 * 다시 리시브 시작
@@ -296,12 +296,12 @@ void Receive(Connection* conn)
 	 */
 	DWORD flag = 0;
 	int result = WSARecv(conn->mSocket,
-		&conn->mRecvInfo.mWsaBuf,
-		1,
-		NULL,
-		&flag,
-		(OVERLAPPED*)&conn->mRecvInfo,
-		NULL);
+						 &conn->mRecvInfo.mWsaBuf,
+						 1,
+						 NULL,
+						 &flag,
+						 (OVERLAPPED*)&conn->mRecvInfo,
+						 NULL);
 
 	/*
 	 * error가 IO_PENDING이 아니면 끊어줌
@@ -332,12 +332,12 @@ void Send(Connection* conn, char* data, int size)
 			   sizeof(OVERLAPPED));
 
 	int result = WSASend(conn->mSocket,
-		&conn->mSendInfo.mWsaBuf,
-		1,
-		NULL,
-		0,
-		(OVERLAPPED*)&conn->mSendInfo,
-		NULL);
+						 &conn->mSendInfo.mWsaBuf,
+						 1,
+						 NULL,
+						 0,
+						 (OVERLAPPED*)&conn->mSendInfo,
+						 NULL);
 
 	/*
 	 * error가 IO_PENDING이 아니면 끊어줌
